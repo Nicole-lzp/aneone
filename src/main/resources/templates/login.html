@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/BootStrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/common/login.css}">
+<script type="text/javascript" th:src="@{JQuery/jquery-3.5.1.js}"></script>
+</head>
+<body>
+	<div class="container bigbox">
+		<br />
+		<form class="form-horizontal" id="loginForm" method="post" action="/toHome">
+			<div class="form-group">
+				<label for="inputUsername">用户名：</label>
+				<input type="text" class="form-control" id="inputUsername" name="username" placeholder="请输入用户名">
+			</div>
+			<div class="form-group">
+				<label for="inputPassword">密码：</label>
+				<input type="password" class="form-control" id="inputPassword" name="password" placeholder="请输入密码">
+			</div>
+			<div class="form-group">
+				<label for="verifyInput">验证码：</label>
+				<!-- 验证码输入框 -->
+				<input type="text" class="form-control" id="verifyInput" name="verifyInput" placeholder="请输入验证码"> <br />
+				<!-- 验证码图片 -->
+				<img class="verifyCode" onclick="reloadImage()" th:src="@{/utils/codeImage}">
+			</div>
+			<button type="button" class="btn btn-default" onclick="login()">登录</button>
+		</form>
+	</div>
+	<script type="text/javascript">
+		function reloadImage() {
+			const src = "/utils/codeImage?" + new Date().getTime();
+			$('.verifyCode').attr('src', src);
+			$('.verifyInput').val('');
+		}
+		function login() {
+			//对用户名和密码进行验证
+			var username = $("#inputUsername").val();
+			var password = $("#inputPassword").val();
+			var verify = $("#verifyInput").val();
+			if (username == "") {
+				alert("用户名不能为空");
+				return false;
+			}
+			if (password == "") {
+				alert("密码不能为空");
+				return false;
+			}
+			$.ajax({
+				type : "POST",
+				url : "checkUsername",
+				dataType : "json",
+				data : {
+					"username" : username,
+					"password" : password,
+					"verify" : verify
+				},
+				async : true, //异步请求
+				chche : true, //设置为false将不缓存此页面
+				success : function(data) {
+					alert(data.code + "\n" + data.message);
+					switch(data.code){
+					case "0000":
+						location.href = '/toHome/?username='+username;
+						break;
+					case "1000":
+						alert(1000);
+						break;
+					case "1002":
+						alert(1002);
+						break;
+					default:
+						alert(1001);
+						break;
+					}
+					
+					
+					if("0000".equals(data.code)){
+						
+					}
+				},
+				error : function(data) {
+					alert("失败");
+				}
+			});
+		}
+	</script>
+</body>
+</html>
