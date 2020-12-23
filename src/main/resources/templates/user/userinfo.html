@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+layout:decorate="layout/layout">
+<head th:replace="layout/base :: common_head(~{::title},~{::script},~{::link})">
+<!-- 右侧内容页面 -->
+<meta charset="UTF-8">
+<title>用户管理信息</title>
+<script type="text/javascript" th:src="@{/BootStrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/homepage/PicCarousel.js}"></script>
+<script type="text/javascript" th:src="@{/js/homepage/homepage.js}"></script>
+<link rel="stylesheet" th:href="@{/css/common/page.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/homepage/normalize.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/homepage/default.css}">
+<link rel="stylesheet" th:href="@{/css/homepage/style.css}">
+</head>
+<body>
+<div class="content" layout:fragment="content">
+	<div class="container">
+		<br />
+		<table style='white-space: nowrap' class="text-center table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">序号</th>
+					<th class="text-center">用户名</th>
+					<th class="text-center">密码</th>
+					<th class="text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user, status : ${users}">
+					<td th:text="${user.id}" style="display: none" id="userId">1</td>
+					<td th:text="${status.count}">1</td>
+					<td th:text="${user.username}">admin</td>
+					<td th:text="${user.password}">admin</td>
+					<td>
+						<a th:href="@{/toUpdate/{id}(id=${user.id})}" class="btn btn-primary btn-xs active" role="button">update</a>
+						<a th:href="@{/delete/{id}(id=${user.id})}" class="btn btn-default btn-xs active" role="button">delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<a th:href="@{/user/add}" class="btn btn-primary btn-lg active" role="button">add</a>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>
