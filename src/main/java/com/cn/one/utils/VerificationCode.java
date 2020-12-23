@@ -31,7 +31,7 @@ public class VerificationCode {
 		// 1、创建图片
 		BufferedImage bfi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		String sb = createImage(width, height, bfi);
-		
+		System.out.println("验证码：   "+sb);
 		HttpSession session = request.getSession();
 		session.setAttribute("VerificationCode", sb);
 		ImageIO.write(bfi, "JPG", response.getOutputStream());

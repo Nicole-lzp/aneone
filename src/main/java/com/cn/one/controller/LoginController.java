@@ -70,6 +70,7 @@ public class LoginController {
 		model.addAttribute("users", users);
 		home(model);
 		return "home";
+//		return "layout/layout";
 	}
 
 	/*
